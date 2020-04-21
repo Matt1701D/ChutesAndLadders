@@ -1,0 +1,29 @@
+class: ChutesAndLadders
+	members:
+		board (obj)
+		players (int)
+		turn (int)
+
+	methods:
+		init:
+			create board, get players, set turn
+		play:
+			spin wheel, move, check winner
+
+
+class: Board
+	members:
+		board (matrix)
+	methods:
+		initboard:
+			create board matrix and init chutes and ladder locations
+		makemove:
+			move the piece and update board
+		gamestatus:
+			is game over? winner?
+
+
+	chutes and ladders need unique id and top/bottom coordinates
+	ignore ladder tops and chute bottoms
+		
+
