@@ -1,10 +1,11 @@
-import Board
+import random, Board
 
 class ChutesAndLadders:
 
     #initialize game
     def __init__(self):
         self.playerNum = 2
+        self.maxspin = 6
         self.board = Board.Board(10, self.playerNum)
         self.players = self.getPlayers()
         
@@ -23,11 +24,18 @@ class ChutesAndLadders:
         return players
 
     def playGame(self):
-        input(self.players[self.turn] + " press a key to spin")
-        print("\n")
-        self.board.makeMove(self.turn)
-        print("\n")
-        self.board.printBoard()
+        while(1):
+            input(self.players[self.turn] + " press Enter to spin")
+            print("\n")
+
+            spin = random.randint(1,self.maxspin)
+            print("You spun a " + str(spin))
+
+            self.board.makeMove(self.turn, spin)
+            print("\n")
+            self.board.printBoard()
+
+            self.turn ^= 1
 
 if __name__ == '__main__':
     myCandL = ChutesAndLadders()
