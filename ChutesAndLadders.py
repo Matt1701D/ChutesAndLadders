@@ -24,7 +24,8 @@ class ChutesAndLadders:
         return players
 
     def playGame(self):
-        while(1):
+        gameWon = 0
+        while(not(gameWon)):
             input(self.players[self.turn] + " press Enter to spin")
             print("\n")
 
@@ -34,6 +35,11 @@ class ChutesAndLadders:
             self.board.makeMove(self.turn, spin)
             print("\n")
             self.board.printBoard()
+
+            gameWon = self.board.checkWinner(self.turn)
+            if gameWon:
+                print("\n")
+                print(self.players[self.turn] + " wins!")
 
             self.turn ^= 1
 

@@ -1,4 +1,4 @@
-class Board:
+class Board(object):
 
     def __init__(self, boardSize, playerNum):
         self.__boardSize = boardSize
@@ -12,7 +12,7 @@ class Board:
     # PROPERTIES
 
     @property
-    def GameBoard(self):
+    def gameBoard(self):
         return self.__gameBoard
 
     @property
@@ -69,6 +69,10 @@ class Board:
         self.__gameBoard[8][4] = 'CT9---'
         self.__gameBoard[9][5] = 'CB9---'
         self.__CandLmap["CT9"] = [9,5]
+
+        self.__gameBoard[1][6] = 'CT0---'
+        self.__gameBoard[7][3] = 'CB0---'
+        self.__CandLmap["CT0"] = [7,3]
 
         #insert ladders
         self.__gameBoard[0][0] = 'LT1---'
@@ -142,8 +146,17 @@ class Board:
                     playerX_new = spin - playerX - 1
                     playerY_new -= 1
         
-        self.__player_loc[turn][1] = playerX_new
-        self.__player_loc[turn][0] = playerY_new
+        #check for move winning move past [0,0]
+        if playerY_new < 0:
+            playerY_new = playerX_new = 0
+
+        #check for chute or ladder
+        cell = self.__gameBoard[playerY_new][playerX_new][:3]
+        if cell in self.__CandLmap:
+            playerY_new = self.__CandLmap[cell][0]
+            playerX_new = self.__CandLmap[cell][1]
+
+        self.__player_loc[turn] = [playerY_new, playerX_new]
 
         # update previous spot
         if playerX >= 0:
@@ -163,7 +176,11 @@ class Board:
             cellNewValue = cellNew[:4] + str(turn) + cellNew[5]
 
         self.__gameBoard[playerY_new][playerX_new] = cellNewValue
-               
+    
+    # check for winner
+    def checkWinner(self,turn):
+        return self.__player_loc[turn] == [0][0]
+
     # Print out game board
     def printBoard(self):
         for row in self.__gameBoard:
