@@ -132,7 +132,7 @@ class Test_ChutesAndLadders(unittest.TestCase):
     def test_WinnerExact(self):
         #Arrage
         myBoard = Board.Board(10,2)
-        expPlayerLoc = {0: [0,0],1: [-1,-1]}
+        expWinner = 1
 
         #Act
         myBoard.makeMove(0,6)
@@ -143,16 +143,16 @@ class Test_ChutesAndLadders(unittest.TestCase):
         myBoard.makeMove(0,6)
         myBoard.makeMove(0,6)
         myBoard.makeMove(0,4)
-        actPlayerLoc = myBoard.PlayerLoc
+        actWinner = myBoard.checkWinner(0)
 
         #Assert
-        self.assertEqual(expPlayerLoc,actPlayerLoc,"Player landing on winning spot [0,0] is wrong")
+        self.assertEqual(expWinner,actWinner,"Player landing on winning spot [0,0] is wrong")
 
     #Test winning game landing beyond winning spot
     def test_WinnerBeyond(self):
         #Arrage
         myBoard = Board.Board(10,2)
-        expPlayerLoc = {0: [0,0],1: [-1,-1]}
+        expWinner = 1
 
         #Act
         myBoard.makeMove(0,6)
@@ -163,10 +163,10 @@ class Test_ChutesAndLadders(unittest.TestCase):
         myBoard.makeMove(0,6)
         myBoard.makeMove(0,6)
         myBoard.makeMove(0,6)
-        actPlayerLoc = myBoard.PlayerLoc
+        actWinner = myBoard.checkWinner(0)
 
         #Assert
-        self.assertEqual(expPlayerLoc,actPlayerLoc,"Player landing beyond winning spot [0,0] is wrong")
+        self.assertEqual(expWinner,actWinner,"Player landing beyond winning spot [0,0] is wrong")
 
 if __name__ == '__main__':
     unittest.main()
