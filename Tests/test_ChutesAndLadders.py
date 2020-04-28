@@ -33,7 +33,7 @@ class Test_ChutesAndLadders(unittest.TestCase):
     def test_Players(self):
         #Arrage
         playerNum = 2
-        expPlayerLoc = {0: [-1,-1],1: [-1,-1]}
+        expPlayerLoc = {0: 0,1: 0}
 
         #Act
         myBoard = Board.Board(10,playerNum)
@@ -46,7 +46,7 @@ class Test_ChutesAndLadders(unittest.TestCase):
     def test_MoveLeftToRight(self):
         #Arrage
         myBoard = Board.Board(10,2)
-        expPlayerLoc = {0: [9,4],1: [-1,-1]}
+        expPlayerLoc = {0: 5,1: 0}
 
         #Act
         myBoard.makeMove(0,5)
@@ -59,7 +59,7 @@ class Test_ChutesAndLadders(unittest.TestCase):
     def test_MoveLeftToRightUp(self):
         #Arrage
         myBoard = Board.Board(10,2)
-        expPlayerLoc = {0: [8,8],1: [-1,-1]}
+        expPlayerLoc = {0: 12,1: 0}
 
         #Act
         myBoard.makeMove(0,6)
@@ -73,7 +73,7 @@ class Test_ChutesAndLadders(unittest.TestCase):
     def test_MoveRightToLeft(self):
         #Arrage
         myBoard = Board.Board(10,2)
-        expPlayerLoc = {0: [8,2],1: [-1,-1]}
+        expPlayerLoc = {0: 18,1: 0}
 
         #Act
         myBoard.makeMove(0,6)
@@ -88,7 +88,7 @@ class Test_ChutesAndLadders(unittest.TestCase):
     def test_MoveRightToLeftUp(self):
         #Arrage
         myBoard = Board.Board(10,2)
-        expPlayerLoc = {0: [7,3],1: [-1,-1]}
+        expPlayerLoc = {0: 24,1: 0}
 
         #Act
         myBoard.makeMove(0,6)
@@ -104,7 +104,7 @@ class Test_ChutesAndLadders(unittest.TestCase):
     def test_Chute(self):
         #Arrage
         myBoard = Board.Board(10,2)
-        expPlayerLoc = {0: [9,5],1: [-1,-1]}
+        expPlayerLoc = {0: 6,1: 0}
 
         #Act
         myBoard.makeMove(0,6)
@@ -119,7 +119,7 @@ class Test_ChutesAndLadders(unittest.TestCase):
     def test_Ladder(self):
         #Arrage
         myBoard = Board.Board(10,2)
-        expPlayerLoc = {0: [6,2],1: [-1,-1]}
+        expPlayerLoc = {0: 38,1: 0}
 
         #Act
         myBoard.makeMove(0,1)
