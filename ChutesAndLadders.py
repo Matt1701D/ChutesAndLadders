@@ -4,7 +4,7 @@ class ChutesAndLadders(object):
 
     #initialize game
     def __init__(self):
-        self.maxSpin = 6 #has to be at most equal to boardSize
+        self.maxSpin = 6
         self.boardSize = 10
         self.players = self.getPlayers()
         self.board = Board.Board(self.boardSize, len(self.players))
@@ -30,8 +30,9 @@ class ChutesAndLadders(object):
 
     #have players spin and move
     def playGame(self):
-        gameWon = False
         playerCnt = len(self.players)
+
+        gameWon = False
         while(not(gameWon)):
             input(self.players[self.turn] + " press Enter to spin")
             print("\n")

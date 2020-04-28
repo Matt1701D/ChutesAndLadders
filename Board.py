@@ -59,19 +59,18 @@ class Board(object):
             self.__placeOnBoard(value, labelValue)
 
     # convert position into grid coordinates and update gameBoard
-    def __placeOnBoard(self,position,turn,isNewPos=False):
-        label = turn
+    def __placeOnBoard(self,position,label,isNewPos=False):
         gridCoord = self.__posToGrid(position)
         y = gridCoord[0]
         x = gridCoord[1]
 
         # if updating previous player position, look for player number to replace, 
         # else for new player position replace right most '-' with player number
-        if str(turn).isnumeric():
+        if str(label).isnumeric():
             if isNewPos:
                 delimeter = self.__delimeter
             else:
-                delimeter = str(turn)
+                delimeter = str(label)
                 label = self.__delimeter
 
             labelCur = self.__gameBoard[y][x]
@@ -82,10 +81,7 @@ class Board(object):
                 if labelCur[cellLength-1] == delimeter:
                     label = labelCur[:cellLength-1] + str(label) + labelCur[cellLength:]
                     playerFound = True
-                #elif labelCur[5] == delimeter:
-                    #label = labelCur[:5] + str(label) + labelCur[6]
                 else:
-                    #label = labelCur[:4] + str(label) + labelCur[5] + labelCur[6]
                     cellLength-=1
             
         self.__gameBoard[y][x] = label
