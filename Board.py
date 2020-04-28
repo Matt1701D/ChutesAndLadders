@@ -59,41 +59,34 @@ class Board(object):
             self.__placeOnBoard(value, labelValue)
 
     # convert position into grid coordinates and update gameBoard
-    def __placeOnBoard(self,position,label):
-        gridCoord = self.__posToGrid(position)
-        y = gridCoord[0]
-        x = gridCoord[1]
-
-        self.__gameBoard[y][x] = label
-
-    # convert position into grid coordinates and update gameBoard
-    def __placeOnBoardPlayer(self,position,turn,isNewPos):
+    def __placeOnBoard(self,position,turn,isNewPos=False):
+        label = turn
         gridCoord = self.__posToGrid(position)
         y = gridCoord[0]
         x = gridCoord[1]
 
         # if updating previous player position, look for player number to replace, 
         # else for new player position replace right most '-' with player number
-        if isNewPos:
-            delimeter = self.__delimeter
-            label = turn
-        else:
-            delimeter = str(turn)
-            label = self.__delimeter
-
-        labelCur = self.__gameBoard[y][x]
-
-        playerFound = False
-        cellLength = 4 + self.__playerNum
-        while(not(playerFound)):
-            if labelCur[cellLength-1] == delimeter:
-                label = labelCur[:cellLength-1] + str(label) + labelCur[cellLength:]
-                playerFound = True
-            #elif labelCur[5] == delimeter:
-                #label = labelCur[:5] + str(label) + labelCur[6]
+        if str(turn).isnumeric():
+            if isNewPos:
+                delimeter = self.__delimeter
             else:
-                #label = labelCur[:4] + str(label) + labelCur[5] + labelCur[6]
-                cellLength-=1
+                delimeter = str(turn)
+                label = self.__delimeter
+
+            labelCur = self.__gameBoard[y][x]
+
+            playerFound = False
+            cellLength = 4 + self.__playerNum
+            while(not(playerFound)):
+                if labelCur[cellLength-1] == delimeter:
+                    label = labelCur[:cellLength-1] + str(label) + labelCur[cellLength:]
+                    playerFound = True
+                #elif labelCur[5] == delimeter:
+                    #label = labelCur[:5] + str(label) + labelCur[6]
+                else:
+                    #label = labelCur[:4] + str(label) + labelCur[5] + labelCur[6]
+                    cellLength-=1
             
         self.__gameBoard[y][x] = label
 
@@ -119,11 +112,11 @@ class Board(object):
 
         # remove old player location
         if pos_current > 0:
-            self.__placeOnBoardPlayer(pos_current, turn, False)
+            self.__placeOnBoard(pos_current, turn, False)
         
         # update player location
         self.__player_loc[turn] = pos_new
-        self.__placeOnBoardPlayer(pos_new, turn, True)
+        self.__placeOnBoard(pos_new, turn, True)
     
     # check for winner
     def checkWinner(self,turn):
