@@ -6,6 +6,7 @@ class Board(object):
         self.__gameBoard = []
         self.__CandLmap = {}
         self.__player_loc = {}
+        self.__delimeter = '-'
 
         self.__initBoard()
 
@@ -27,7 +28,8 @@ class Board(object):
 
     # initialize the game board and players
     def __initBoard(self):
-        self.__gameBoard = [['-------'] * self.__boardSize for x in range(self.__boardSize)]
+        cellLength = 4 + self.__playerNum
+        self.__gameBoard = [[self.__delimeter*cellLength] * self.__boardSize for x in range(self.__boardSize)]
 
         # set players off the board
         for i in range(self.__playerNum):
@@ -39,17 +41,18 @@ class Board(object):
 
         # make Chutes and Ladder labels and place on board
         ladderCount = chuteCount = 0
+        delimString = self.__delimeter*(cellLength-3)
         for item in self.__CandLmap:
             key = item
             value = self.__CandLmap[item]
 
             if key > value:
-                labelKey = 'CT'+str(chuteCount)+'----'
-                labelValue = 'CB'+str(chuteCount)+'----'
+                labelKey = 'CT'+str(chuteCount)+delimString
+                labelValue = 'CB'+str(chuteCount)+delimString
                 chuteCount += 1
             else:
-                labelKey = 'LB'+str(ladderCount)+'----'
-                labelValue = 'LT'+str(ladderCount)+'----'
+                labelKey = 'LB'+str(ladderCount)+delimString
+                labelValue = 'LT'+str(ladderCount)+delimString
                 ladderCount += 1
         
             self.__placeOnBoard(key, labelKey)
@@ -72,19 +75,25 @@ class Board(object):
         # if updating previous player position, look for player number to replace, 
         # else for new player position replace right most '-' with player number
         if isNewPos:
-            delimeter = '-'
+            delimeter = self.__delimeter
             label = turn
         else:
             delimeter = str(turn)
-            label = '-'
+            label = self.__delimeter
 
         labelCur = self.__gameBoard[y][x]
-        if labelCur[6] == delimeter:
-            label = labelCur[:6] + str(label)
-        elif labelCur[5] == delimeter:
-            label = labelCur[:5] + str(label) + labelCur[6]
-        else:
-            label = labelCur[:4] + str(label) + labelCur[5] + labelCur[6]
+
+        playerFound = False
+        cellLength = 4 + self.__playerNum
+        while(not(playerFound)):
+            if labelCur[cellLength-1] == delimeter:
+                label = labelCur[:cellLength-1] + str(label) + labelCur[cellLength:]
+                playerFound = True
+            #elif labelCur[5] == delimeter:
+                #label = labelCur[:5] + str(label) + labelCur[6]
+            else:
+                #label = labelCur[:4] + str(label) + labelCur[5] + labelCur[6]
+                cellLength-=1
             
         self.__gameBoard[y][x] = label
 
@@ -109,7 +118,8 @@ class Board(object):
         pos_new = self.__CandLmap.get(pos_new,pos_new)
 
         # remove old player location
-        self.__placeOnBoardPlayer(pos_current, turn, False)
+        if pos_current > 0:
+            self.__placeOnBoardPlayer(pos_current, turn, False)
         
         # update player location
         self.__player_loc[turn] = pos_new

@@ -4,11 +4,10 @@ class ChutesAndLadders(object):
 
     #initialize game
     def __init__(self):
-        self.playerNum = 3
         self.maxSpin = 6 #has to be at most equal to boardSize
         self.boardSize = 10
-        self.board = Board.Board(self.boardSize, self.playerNum)
         self.players = self.getPlayers()
+        self.board = Board.Board(self.boardSize, len(self.players))
         self.turn = 0
 
         self.playGame()
@@ -18,16 +17,21 @@ class ChutesAndLadders(object):
         print("Welcome to Chutes and Ladders")
 
         players = []
-        while(len(players) < self.playerNum):
-            player = input("Enter unique name for player " + str(len(players)+1) + ": ")
-            if not player in players:
-                players.append(player)
+        playersSuccess = False
+        while(not playersSuccess):
+            players = input("Enter unique name for players separated by comma: ")
+            players = players.split(',')
+            if len(players) == len(set(players)):
+                playersSuccess = True
+            else:
+                print("Player names not unique!")
         
         return players
 
     #have players spin and move
     def playGame(self):
-        gameWon = 0
+        gameWon = False
+        playerCnt = len(self.players)
         while(not(gameWon)):
             input(self.players[self.turn] + " press Enter to spin")
             print("\n")
@@ -44,7 +48,7 @@ class ChutesAndLadders(object):
                 print("\n")
                 print(self.players[self.turn] + " wins!")
             else:
-                self.turn = 0 if self.turn+1 > self.playerNum-1 else self.turn+1
+                self.turn = 0 if self.turn+1 > playerCnt-1 else self.turn+1
 
 if __name__ == '__main__':
     myCandL = ChutesAndLadders()
